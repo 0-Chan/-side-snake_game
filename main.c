@@ -1,405 +1,181 @@
 #include <stdio.h>
-
 #include <stdlib.h> 
-
 #include <Windows.h>
-
 #include <conio.h>
-
 #include <time.h>
 
-
-
 typedef struct _POS
-
 {
-
 	int x, y;
-
 }POS;
 
-
-
 void gotoxy(int x, int y)
-
 {
-
 	COORD Pos = { x * 2,y };
-
-
-
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
-
 }
 
-
-
-void draw_Map(void)			// printf ·Î Map draw 
-
+void draw_Map(void)			// printf ë¡œ Map draw 
 {
-
 	int i = 0;
-
-
-
-	printf("¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à");
-
+	printf("â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡");
 	for (i = 1; i < 20; i++)
-
 	{
-
 		gotoxy(0, i);
-
-		printf("¡à");
-
+		printf("â–¡");
 		gotoxy(19, i);
-
-		printf("¡à");
-
+		printf("â–¡");
 	}
 
 	printf("\n");
-
-	printf("¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à¡à");
-
+	printf("â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡â–¡");
 }
 
-
-
-void _get_Dir(int *dir)			// keyboard hit °¨ÁöÇÏ¿© Call by ref. ·Î ¹æÇâ ¹Þ±â ±¸Çö  
-
-{								// W A S D ·Î µ¿ÀÛ  
-
+void _get_Dir(int *dir)			// keyboard hit ê°ì§€í•˜ì—¬ Call by ref. ë¡œ ë°©í–¥ ë°›ê¸° êµ¬í˜„  
+{								// W A S D ë¡œ ë™ìž‘  
 	int val = 0;
-
-
-
 	if (_kbhit())
-
 	{
-
 		val = _getch();
-
 		switch (val)
-
 		{
-
 		case 'w':
-
 			if (*dir == 3) {
-
 				break;
-
 			}
-
 			*dir = 1;
-
 			break;
-
 		case 'W':
-
 			if (*dir == 3) {
-
 				break;
-
 			}
-
 			*dir = 1;
-
 			break;
-
-
 
 		case 'a':
-
 			if (*dir == 4) {
-
 				break;
-
 			}
-
 			*dir = 2;
-
 			break;
-
 		case 'A':
-
 			if (*dir == 4) {
-
 				break;
-
 			}
-
 			*dir = 2;
-
 			break;
-
-
 
 		case 's':
-
 			if (*dir == 1) {
-
 				break;
-
 			}
-
 			*dir = 3;
-
 			break;
-
 		case 'S':
-
 			if (*dir == 1) {
-
 				break;
-
 			}
-
 			*dir = 3;
-
 			break;
-
-
 
 		case 'd':
-
 			if (*dir == 2) {
-
 				break;
-
 			}
-
 			*dir = 4;
-
 			break;
-
 		case 'D':
-
 			if (*dir == 2) {
-
 				break;
-
 			}
-
 			*dir = 4;
-
 			break;
-
 		}
-
 	}
-
 }
 
-
-
-void _draw_Straightness(POS *head, int dir) // struct pointerÀ» ¹Þ¾Æ¿Í ³»ºÎ¿¡¼­ -> ¿¬»êÇÏ¿© Call by ref. ±¸Çö
-
+void _draw_Straightness(POS *head, int dir) // struct pointerì„ ë°›ì•„ì™€ ë‚´ë¶€ì—ì„œ -> ì—°ì‚°í•˜ì—¬ Call by ref. êµ¬í˜„
 {
-
 	gotoxy(head->x, head->y);
 
-
-
 	switch (dir)
-
 	{
-
 	case 1:
-
 		head->y -= 1;
-
-		printf("¡â");
-
+		printf("â–³");
 		break;
 
 	case 2:
-
 		head->x -= 1;
-
-		printf("¢·");
-
+		printf("â—");
 		break;
 
 	case 3:
-
 		head->y += 1;
-
-		printf("¡ä");
-
+		printf("â–½");
 		break;
 
 	case 4:
-
 		head->x += 1;
-
-		printf("¢¹");
-
+		printf("â–·");
 		break;
-
 	}
-
-
-
 }
 
-
-
 void _draw_Tail(POS *head, int len)
-
 {
-
 	static j = 0;
-
 	static POS tail[800];
-
 	int i = 0, k = 0;
 
-
-
 	tail[j].x = head->x;
-
 	tail[j].y = head->y;
 
 	j++;
 
-
-
 	for (i = (j - len); i < j; i++)
-
 	{
-
 		gotoxy(tail[i - 1].x, tail[i - 1].y);
-
-		printf("¢Á");
-
-
-
-		//for (k = 0; k > ºÒ¸¸Á·; k++)
-		//{
-
-
-
-		//}
-
+		printf("âŠ™");
 	}
-
-
-
 }
 
-
-
-
-
-void check_Wall(POS *head)			//  Wall ÁÂÇ¥ ºÎµúÈ÷¸é over  
-
+void check_Wall(POS *head)			//  Wall ì¢Œí‘œ ë¶€ë”ªížˆë©´ over  
 {
-
 	int i = 0;
 
-
-
 	if ((0 == head->x) || (head->x >= 19) || (head->y == 0) || (head->y >= 20))
-
 	{
-
 		system("cls");
-
 		printf("the end");
-
 		Sleep("3000");
-
 	}
-
-
-
-	//for(i = 0 ; i > 10 ; 1++)
-
-	//{
-
-
-
-	//}
-
-
-
-
-
 }
-
-
 
 void _respawn_Food(POS *prand)
-
 {
-
 	srand(time(NULL));
 
-
-
 	prand->x = (rand() % 18) + 1;
-
 	prand->y = (rand() % 18) + 1;
-
 }
-
-
-
-/*
-
-void clrscr(void) // È­¸éÁö¿ì´Â ÇÔ¼ö
-
-{
-
-COORD Cur= {0,0 };
-
-unsigned long dwLen;
-
-FillConsoleOutputCharacter(GetStdHandle(STD_OUTPUT_HANDLE) , ' ', 100*80, Cur, &dwLen);
-
-}
-
-*/
-
-
 
 int main()
-
 {
-
 	POS phead, prand;			// declare start POS 
 
 	phead.x = 10;
-
 	phead.y = 10;
 
-
-
 	prand.x = 15;
-
 	prand.y = 15;
-
-
 
 	int dir = 1, len = 3, i, j = 0;
 
-
-
-
-
 	while (1)
-
 	{
-
 		draw_Map();
-
 		check_Wall(&phead);			// tail collision part should be added
-
-
-
-
 
 		_get_Dir(&dir);
 
@@ -407,50 +183,21 @@ int main()
 
 		_draw_Tail(&phead, len);
 
-
-
-
-
-
-
-
-
 		if ((phead.x == prand.x) && (phead.y == prand.y))
-
 		{
-
-
-
 			len++;
-
 			_respawn_Food(&prand);
-
 		}
 
-
-
 		gotoxy(prand.x, prand.y);
-
 		printf("*");
-
-
-
-
 
 		Sleep(100);
 
 		system("cls");
 
-
-
 		gotoxy(100, 100);
-
-		//	clrscr();
-
 	}
 
-
-
 	return 0;
-
 }
